@@ -5,7 +5,9 @@
 
 namespace vcpkg
 {
-    static void do_print(const StatusParagraph& pgh)
+	static const std::string OPTION_SIZE = "--size";
+	
+	static void do_print(const StatusParagraph& pgh)
     {
         System::println("%-27s %-16s %s",
                         pgh.package.displayname(),
