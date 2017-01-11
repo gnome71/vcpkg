@@ -18,6 +18,7 @@ namespace vcpkg
         opt_bool debug = opt_bool::unspecified;
         opt_bool sendmetrics = opt_bool::unspecified;
         opt_bool printmetrics = opt_bool::unspecified;
+		opt_bool size = opt_bool::unspecified;
 
         std::string command;
         std::vector<std::string> command_arguments;
