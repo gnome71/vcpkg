@@ -119,6 +119,10 @@ namespace vcpkg
                     parse_switch(opt_bool::disabled, "printmetrics", args.printmetrics);
                     continue;
                 }
+				if (arg == "--size")
+				{
+					parse_switch(opt_bool::enabled, "size", args.size);
+				}
 
                 args.optional_command_arguments.insert(arg);
                 continue;
