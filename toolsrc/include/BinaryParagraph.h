@@ -23,6 +23,7 @@ namespace vcpkg
         std::string description;
         std::string maintainer;
         std::vector<std::string> depends;
+		std::string diskusage;	// should be long or ...
     };
 
     std::ostream& operator<<(std::ostream& os, const BinaryParagraph& pgh);
