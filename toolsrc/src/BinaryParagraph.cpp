@@ -20,7 +20,8 @@ namespace vcpkg
         static const std::string DESCRIPTION = "Description";
         static const std::string MAINTAINER = "Maintainer";
         static const std::string DEPENDS = "Depends";
-    }
+		static const std::string DISKUSAGE = "Diskusage";
+	}
 
     static const std::vector<std::string>& get_list_of_valid_fields()
     {
@@ -32,8 +33,9 @@ namespace vcpkg
 
             BinaryParagraphOptionalField::DESCRIPTION,
             BinaryParagraphOptionalField::MAINTAINER,
-            BinaryParagraphOptionalField::DEPENDS
-        };
+            BinaryParagraphOptionalField::DEPENDS,
+			BinaryParagraphOptionalField::DISKUSAGE
+		};
 
         return valid_fields;
     }
