@@ -2,17 +2,28 @@
 #include "vcpkg.h"
 #include "vcpkg_System.h"
 #include "vcpkglib_helpers.h"
+#include "Paragraphs.h"
 
 namespace vcpkg::Commands::List
 {
-	static const std::string OPTION_SIZE = "--size";
+	static const std::string OPTION_DISKUSAGE = "--diskusage";
 	
-	static void do_print(const StatusParagraph& pgh)
+	static void do_print(const StatusParagraph& pgh, bool showDiskUsage)
     {
-        System::println("%-27s %-16s %s",
-                        pgh.package.displayname(),
-                        pgh.package.version,
-                        details::shorten_description(pgh.package.description));
+		if (!showDiskUsage) {
+			System::println("%-27s %-16s %s",
+				pgh.package.displayname(),
+				pgh.package.version,
+				details::shorten_description(pgh.package.description));
+		}
+		else
+		{
+			System::println("%-27s %-16s %s %s",
+				pgh.package.displayname(),
+				pgh.package.version,
+				pgh.package.diskusage,	// CONTINUE
+				details::shorten_description(pgh.package.description));
+		}
     }
 
     void perform_and_exit(const vcpkg_cmd_arguments& args, const vcpkg_paths& paths)
@@ -20,6 +31,9 @@ namespace vcpkg::Commands::List
         static const std::string example = Strings::format(
             "The argument should be a substring to search for, or no argument to display all installed libraries.\n%s", Commands::Help::create_example_string("list png"));
         args.check_max_arg_count(1, example);
+
+		const std::unordered_set<std::string> options = args.check_and_get_optional_command_arguments({ OPTION_DISKUSAGE });
+		bool alsoShowDiskUsage = options.find(OPTION_DISKUSAGE) != options.end();
 
         const StatusParagraphs status_paragraphs = database_load_check(paths);
         std::vector<StatusParagraph> installed_packages;
@@ -42,11 +56,11 @@ namespace vcpkg::Commands::List
                       return lhs.package.displayname() < rhs.package.displayname();
                   });
 
-        if (args.command_arguments.size() == 0)
+		if (args.command_arguments.size() == 0)
         {
             for (const StatusParagraph& status_paragraph : installed_packages)
             {
-                do_print(status_paragraph);
+                do_print(status_paragraph, alsoShowDiskUsage);
             }
         }
         else
@@ -60,7 +74,7 @@ namespace vcpkg::Commands::List
                     continue;
                 }
 
-                do_print(status_paragraph);
+                do_print(status_paragraph, alsoShowDiskUsage);
             }
         }
 
