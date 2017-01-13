@@ -61,7 +61,8 @@ namespace vcpkg::Files
         return std::move(output);
     }
 
-    void write_all_lines(const fs::path& file_path, const std::vector<std::string>& lines)
+    // EXPLORE: write_all_lines
+	void write_all_lines(const fs::path& file_path, const std::vector<std::string>& lines)
     {
         std::fstream output(file_path, std::ios_base::out | std::ios_base::binary | std::ios_base::trunc);
         for (const std::string& line : lines)
